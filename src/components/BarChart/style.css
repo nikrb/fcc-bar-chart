@@ -27,13 +27,3 @@
 .axis text {
   font: 10px sans-serif;
 }
-
-.axis_centre text {
-  /* hide xaxis labels */
-  display: none;
-  text-anchor: middle;
-}
-.axis_centre .tick line{
-  /* hide xaxis ticks */
-  visibility:hidden;
-}
