@@ -29,16 +29,25 @@ export default class BarChart extends React.Component {
     const inner_height = height-(margin.top+margin.bottom);
     const inner_offset = `translate( ${margin.left}, ${margin.top})`;
     const yScale = d3.scaleLinear()
-      .domain( [0, d3.max( this.props.data, d => d.value)])
+      .domain( [0, d3.max( data, d => d.value)])
       .range( [inner_height, 0]);
-    const xScale = d3.scaleBand()
-      .domain( this.props.data.map( (d) => d.label))
-      .range( [0, inner_width]);
+
+    // xScale.bandwidth only works with integers
+    let bar_width = inner_width/data.length+1;
+    const xScale = d3.scaleTime()
+      .range([0, inner_width]);
+    if( data.length){
+      let min_date = new Date();
+      let max_date = new Date();
+      min_date = new Date( data[0].label);
+      max_date = new Date( data[data.length-1].label);
+      xScale.domain( [min_date, max_date]);
+    }
 
     const bars = data.map( ( d, ndx) => {
       return (
-        <rect key={ndx} x={xScale( d.label)} y={yScale( d.value)}
-          width={xScale.bandwidth()-1}
+        <rect key={ndx} x={xScale( new Date( d.label))} y={yScale( d.value)}
+          width={bar_width}
           height={inner_height - yScale(d.value)}
           onMouseEnter={this.handleMouseEnter.bind( this, d)}
           onMouseLeave={this.handleMouseLeave}/>
