@@ -29,12 +29,10 @@ export default class GDP extends React.Component {
     this.setState( { tooltip_visible: false})
   };
   render = () => {
+    console.log( "rendering GDP");
     const chart_data = this.state.data.data.map( (dp) => {
-      const bits = dp[0].split('-');
-      const yr = parseFloat( bits[0]);
       return { label: dp[0], value: dp[1]};
     });
-    console.log( 'chart data:', chart_data)
     const container = { width:960, height:400};
     const tooltip = {display: (this.state.tooltip_visible)?"block":"none",
       top: this.state.tooltip_y, left: this.state.tooltip_x
