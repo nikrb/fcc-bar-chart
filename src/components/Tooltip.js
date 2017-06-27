@@ -12,7 +12,7 @@ import React from 'react';
 export default ( props) => {
   const style =  {
     position: "absolute",
-    textAlign: "center"
+    textAlign: "center",
     padding: "5px",
     font: "12px sans-serif",
     background: "lightsteelblue",
@@ -21,7 +21,7 @@ export default ( props) => {
     pointerEvents: "none"
   };
   return (
-    <div style={{...style, props.pos}}>
+    <div style={{...style, ...props.pos}}>
       {props.tip_text}
     </div>
   );
