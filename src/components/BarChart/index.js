@@ -23,8 +23,7 @@ export default class BarChart extends React.Component {
     this.props.handleMouseLeave();
   };
   render = () => {
-    const {data, width, height} = this.props;
-    const margin = {top: 20, right: 30, bottom: 30, left: 40};
+    const {data, width, height, margin} = this.props;
     const inner_width = width-(margin.left+margin.right);
     const inner_height = height-(margin.top+margin.bottom);
     const inner_offset = `translate( ${margin.left}, ${margin.top})`;
@@ -58,7 +57,7 @@ export default class BarChart extends React.Component {
         <g transform={inner_offset}>
           {bars}
         </g>
-        <XYAxis scales={{xScale,yScale}} margins={margin} height={height} />
+        <XYAxis scales={{xScale,yScale}} margins={margin} height={height} width={width} />
       </svg>
     );
   };

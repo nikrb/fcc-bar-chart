@@ -17,6 +17,7 @@ export default class GDP extends React.Component {
   getData = () => {
     Actions.getGDP()
     .then( (response) => {
+      console.log( response);
       this.setState( { data: response})
     });
   };
@@ -37,9 +38,31 @@ export default class GDP extends React.Component {
     const tooltip = {display: (this.state.tooltip_visible)?"block":"none",
       top: this.state.tooltip_y, left: this.state.tooltip_x
     };
+    const {description, name} = this.state.data;
+    const margin = {top: 20, right: 30, bottom: 50, left: 40};
+    const xaxis_style = {
+      position: "absolute",
+      fontSize: "10px",
+      top: container.height-10,
+      left: margin.left,
+      width: container.width - (margin.left+margin.right)
+    };
+    const yaxis_style = {
+      position: "absolute",
+      fontSize: "10px",
+      top: container.height/2,
+      left: "-3em",
+      transform: "rotate( -90deg)"
+    };
     return (
       <div>
-        <BarChart height={container.height} width={container.width} data={chart_data}
+        <div style={xaxis_style}>
+          {description}
+        </div>
+        <div style={yaxis_style}>
+          {name}
+        </div>
+        <BarChart margin={margin} height={container.height} width={container.width} data={chart_data}
           handleMouseEnter={this.handleMouseEnter} handleMouseLeave={this.handleMouseLeave} />
         <Tooltip tip_text={this.state.tooltip_text} pos={tooltip} />
       </div>
