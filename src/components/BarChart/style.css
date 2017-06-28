@@ -27,3 +27,7 @@
 .axis text {
   font: 10px sans-serif;
 }
+
+.axis_centre text {
+  text-anchor: middle;
+}
