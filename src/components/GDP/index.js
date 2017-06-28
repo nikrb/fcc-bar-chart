@@ -11,6 +11,9 @@ export default class GDP extends React.Component {
     tooltip_x :0,
     tooltip_y : 0
   };
+  margin = {top: 20, right: 30, bottom: 50, left: 40};
+  mouse_x = 0;
+  mouse_y = 0;
   componentWillMount = () => {
     this.getData();
   };
@@ -21,10 +24,15 @@ export default class GDP extends React.Component {
       this.setState( { data: response})
     });
   };
-  handleMouseEnter = (datarow, x, y) => {
+  handleMouseMove = (e) => {
+    // this seems to be the best fit for chrome,firefox and ie
+    this.mouse_x = e.nativeEvent.pageX-this.margin.left;
+    this.mouse_y = e.nativeEvent.pageY-this.margin.top;
+  };
+  handleMouseEnter = (datarow) => {
     this.setState( { tooltip_text: datarow.label+":"+datarow.value,
       tooltip_visible:true,
-      tooltip_x: x+12, tooltip_y: y});
+      tooltip_x: this.mouse_x, tooltip_y: this.mouse_y});
   };
   handleMouseLeave = () => {
     this.setState( { tooltip_visible: false})
@@ -39,13 +47,12 @@ export default class GDP extends React.Component {
       top: this.state.tooltip_y, left: this.state.tooltip_x
     };
     const {description, name} = this.state.data;
-    const margin = {top: 20, right: 30, bottom: 50, left: 40};
     const xaxis_style = {
       position: "absolute",
       fontSize: "10px",
       bottom: "1em",
-      left: margin.left,
-      width: container.width - (margin.left+margin.right)
+      left: this.margin.left,
+      width: container.width - (this.margin.left+this.margin.right)
     };
     const yaxis_style = {
       position: "absolute",
@@ -63,9 +70,11 @@ export default class GDP extends React.Component {
         <div style={yaxis_style}>
           {name}
         </div>
-        <BarChart margin={margin} height={container.height} width={container.width} data={chart_data}
-          handleMouseEnter={this.handleMouseEnter} handleMouseLeave={this.handleMouseLeave} />
-        <Tooltip tip_text={this.state.tooltip_text} pos={tooltip} />
+        <div onMouseMove={this.handleMouseMove} >
+          <BarChart margin={this.margin} height={container.height} width={container.width} data={chart_data}
+            handleMouseEnter={this.handleMouseEnter} handleMouseLeave={this.handleMouseLeave} />
+          <Tooltip tip_text={this.state.tooltip_text} pos={tooltip} />
+        </div>
       </div>
     );
   };
