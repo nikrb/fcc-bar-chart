@@ -43,7 +43,7 @@ export default class GDP extends React.Component {
     const xaxis_style = {
       position: "absolute",
       fontSize: "10px",
-      top: container.height-10,
+      bottom: "1em",
       left: margin.left,
       width: container.width - (margin.left+margin.right)
     };
@@ -55,7 +55,8 @@ export default class GDP extends React.Component {
       transform: "rotate( -90deg)"
     };
     return (
-      <div>
+      <div style={{position: "relative", textAlign: "center"}}>
+        <h1>Gross Domestic Product</h1>
         <div style={xaxis_style}>
           {description}
         </div>
